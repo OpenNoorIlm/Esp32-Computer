@@ -189,6 +189,18 @@ int lua_rtc_date(lua_State *L) {
 int lua_rtc_temp(lua_State *L) {
   lua_pushnumber(L, rtcReady ? rtc.getTemperature() : 0); return 1;
 }
+// rtc.set(year, month, day, hour, min, sec) -> 1/0
+int lua_rtc_set(lua_State *L) {
+  if (!rtcReady) { lua_pushinteger(L, 0); return 1; }
+  int yr  = (int)lua_tointeger(L, 1);
+  int mo  = (int)lua_tointeger(L, 2);
+  int dy  = (int)lua_tointeger(L, 3);
+  int hr  = (int)lua_tointeger(L, 4);
+  int mn  = (int)lua_tointeger(L, 5);
+  int sc  = (int)lua_tointeger(L, 6);
+  rtc.adjust(DateTime(yr, mo, dy, hr, mn, sc));
+  lua_pushinteger(L, 1); return 1;
+}
 
 // ── Register all libs ─────────────────────────────────────
 void luaRegisterLibs() {
@@ -233,6 +245,7 @@ void luaRegisterLibs() {
   lua.Lua_register("rtc_time",     lua_rtc_time);
   lua.Lua_register("rtc_date",     lua_rtc_date);
   lua.Lua_register("rtc_temp",     lua_rtc_temp);
+  lua.Lua_register("rtc_set",      lua_rtc_set);
   // buzz
   lua.Lua_register("buzz",         lua_buzz_fn);
 
@@ -252,7 +265,7 @@ http={get=http_get, post=http_post}
 sys={reboot=sys_reboot, millis=sys_millis, delay=sys_delay,
      free=sys_free, mode=sys_mode}
 wifi={status=wifi_status, ip=wifi_ip}
-rtc={time=rtc_time, date=rtc_date, temp=rtc_temp}
+rtc={time=rtc_time, date=rtc_date, temp=rtc_temp, set=rtc_set}
 )";
   lua.Lua_dostring(&init);
 }
