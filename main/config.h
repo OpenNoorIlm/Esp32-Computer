@@ -20,6 +20,8 @@
 #include <Preferences.h>
 #include <WiFiServer.h>
 #include <WiFiClient.h>
+#define LUA_USE_C89
+#include <LuaWrapper.h>
 
 // ── Pins ─────────────────────────────────────────────────
 #define BUZZER_PIN    4

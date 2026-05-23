@@ -3,8 +3,6 @@
 // NOTE: LuaWrapper only exposes Lua_register() and Lua_dostring().
 // All callbacks use the raw Lua C API (lua_tointeger, lua_tostring, etc.)
 // via the lua_State* L parameter passed to each lua_CFunction.
-
-#include <LuaWrapper.h>
 LuaWrapper lua;
 
 // Helper: get lua_State from a global — not needed; each C function receives L directly.
