@@ -1,9 +1,14 @@
 //  Library: https://github.com/Caffreyfans/ESP-Arduino-Lua
 // ═══════════════════════════════════════════════════════════
+// NOTE: LuaWrapper only exposes Lua_register() and Lua_dostring().
+// All callbacks use the raw Lua C API (lua_tointeger, lua_tostring, etc.)
+// via the lua_State* L parameter passed to each lua_CFunction.
 
 #include <LuaWrapper.h>
-#ifdef LUAWRAPPER_H
 LuaWrapper lua;
+
+// Helper: get lua_State from a global — not needed; each C function receives L directly.
+// All functions below are lua_CFunction: int fn(lua_State *L)
 
 // ── Lua API bindings ──────────────────────────────────────
 
@@ -271,4 +276,4 @@ void runLuaString(const String& code) {
   }
 }
 
-#endif // LUAWRAPPER_H (inner guard — always compiled once LuaWrapper.h is included)
+
